@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { login } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
+import { FlameIcon } from '../components/shared/Icons';
 
 const Login = () => {
 
@@ -11,10 +12,8 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  // If already logged in, redirect to dashboard
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
+    if (localStorage.getItem('token')) {
       navigate('/dashboard', { replace: true });
     }
   }, [navigate]);
@@ -29,62 +28,70 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.username);
 
-      // Replace history so login page disappears
       navigate('/dashboard', { replace: true });
 
-    } catch (err) {
+    } catch {
       alert('Invalid credentials');
     }
   };
 
   return (
 
-    <div className="flex items-center justify-center min-h-screen bg-slate-50">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50 px-4">
 
       <form
         onSubmit={handleSubmit}
-        className="p-8 bg-white shadow-xl rounded-2xl w-96 border border-slate-200"
+        className="w-96 bg-white border border-slate-200 rounded-2xl shadow-xl p-8"
       >
 
-        <h2 className="text-2xl font-black mb-6 text-center text-slate-800">
-          Login
+        {/* Header */}
+        <div className="mb-6">
+
+          <div className="flex items-center gap-2 justify-center">
+
+            <div className="w-10 h-10 bg-slate-700 text-white rounded-lg flex items-center justify-center">
+              <FlameIcon />
+            </div>
+
+            <h1 className="text-xl font-black text-slate-800">
+              Diet Tracker
+            </h1>
+
+          </div>
+
+          <p className="text-sm text-slate-400 font-semibold text-center mt-1">
+            Smart Nutrition Diary
+          </p>
+
+        </div>
+
+        <h2 className="text-center text-lg font-bold text-slate-700 mb-6">
+          Login to your account
         </h2>
 
-        {/* Email */}
         <input
           type="email"
           placeholder="Email"
           required
-          className="w-full p-3 mb-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300 text-slate-700 placeholder-slate-400"
-          onChange={(e) =>
-            setFormData({ ...formData, email: e.target.value })
-          }
+          className="w-full p-3 mb-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300"
+          onChange={(e)=>setFormData({...formData,email:e.target.value})}
         />
 
-        {/* Password */}
         <input
           type="password"
           placeholder="Password"
           required
-          className="w-full p-3 mb-6 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300 text-slate-700 placeholder-slate-400"
-          onChange={(e) =>
-            setFormData({ ...formData, password: e.target.value })
-          }
+          className="w-full p-3 mb-6 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300"
+          onChange={(e)=>setFormData({...formData,password:e.target.value})}
         />
 
-        {/* Login button */}
-        <button
-          className="w-full bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition"
-        >
+        <button className="w-full bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition">
           Login
         </button>
 
         <p className="mt-4 text-center text-sm text-slate-500">
           Don't have an account?{" "}
-          <Link
-            to="/register"
-            className="text-slate-600 font-bold hover:text-slate-800"
-          >
+          <Link to="/register" className="text-slate-600 font-bold">
             Register
           </Link>
         </p>

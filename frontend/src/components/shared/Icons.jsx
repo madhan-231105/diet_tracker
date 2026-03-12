@@ -86,3 +86,31 @@ export const RestoreIcon = () => (
     <line x1="12" y1="3" x2="12" y2="15"/>
   </svg>
 );
+
+export const BreakfastIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="6" stroke="currentColor" strokeWidth="2"/>
+    <circle cx="12" cy="12" r="2" fill="currentColor"/>
+  </svg>
+);
+
+export const LunchIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <rect x="4" y="8" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="2"/>
+    <path d="M8 8V5M12 8V5M16 8V5" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);
+
+export const DinnerIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="7" stroke="currentColor" strokeWidth="2"/>
+    <path d="M12 9V15M9 12H15" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);
+
+export const SnackIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+    <path d="M7 10h10l-1 8H8l-1-8z" stroke="currentColor" strokeWidth="2"/>
+    <path d="M9 10V7a3 3 0 016 0v3" stroke="currentColor" strokeWidth="2"/>
+  </svg>
+);

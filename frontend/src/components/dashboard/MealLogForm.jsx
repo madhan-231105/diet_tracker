@@ -1,15 +1,61 @@
 import React from 'react';
+import {
+  BreakfastIcon,
+  LunchIcon,
+  DinnerIcon,
+  SnackIcon
+} from '../shared/Icons';
 
 const MealLogForm = ({ form, setForm, editingId, handleSubmit, selectedDate }) => {
+
+  const mealTypes = [
+    { type: 'breakfast', icon: <BreakfastIcon /> },
+    { type: 'lunch', icon: <LunchIcon /> },
+    { type: 'dinner', icon: <DinnerIcon /> },
+    { type: 'snack', icon: <SnackIcon /> }
+  ];
+
+  const handleQuantityChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setForm({ ...form, quantity: "" });
+      return;
+    }
+
+    const num = parseFloat(value);
+
+    if (num > 0) {
+      setForm({ ...form, quantity: value });
+    }
+  };
+
+  const handleCaloriesChange = (e) => {
+    const value = e.target.value;
+
+    if (value === "") {
+      setForm({ ...form, calories: "" });
+      return;
+    }
+
+    const num = Number(value);
+
+    if (num > 0) {
+      setForm({ ...form, calories: value });
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
       className="bg-white p-5 sm:p-7 rounded-3xl shadow-sm border border-slate-200 space-y-4"
     >
+
       {/* Header */}
       <div className="flex items-center justify-between">
+
         <h3 className="text-lg font-black text-slate-800 tracking-tight">
-          {editingId ? '✏️ Update Entry' : '➕ Log New Meal'}
+          {editingId ? 'Update Entry' : 'Log New Meal'}
         </h3>
 
         {selectedDate && (
@@ -20,6 +66,7 @@ const MealLogForm = ({ form, setForm, editingId, handleSubmit, selectedDate }) =
             })}
           </span>
         )}
+
       </div>
 
       {/* Meal Name */}
@@ -28,53 +75,62 @@ const MealLogForm = ({ form, setForm, editingId, handleSubmit, selectedDate }) =
         placeholder="Meal name (e.g. Oatmeal)"
         value={form.name}
         onChange={e => setForm({ ...form, name: e.target.value })}
-        className="w-full p-3.5 bg-slate-100 rounded-2xl focus:ring-2 focus:ring-slate-400 outline-none font-medium text-slate-800 placeholder-slate-400 text-sm"
+        className="w-full p-3.5 bg-slate-100 rounded-2xl outline-none border border-transparent focus:border-slate-400 focus:ring-1 focus:ring-slate-400 font-medium text-slate-800 placeholder-slate-400 text-sm"
       />
 
       {/* Quantity + Calories */}
       <div className="flex gap-3">
+
+        {/* Quantity */}
         <input
           required
-          placeholder="Qty (e.g. 1 cup)"
+          type="number"
+          min="0.1"
+          step="0.1"
+          placeholder="Qty (e.g. 0.5)"
           value={form.quantity}
-          onChange={e => setForm({ ...form, quantity: e.target.value })}
-          className="w-2/3 p-3.5 bg-slate-100 rounded-2xl outline-none font-medium text-slate-800 placeholder-slate-400 text-sm"
+          onChange={handleQuantityChange}
+          className="w-2/3 p-3.5 bg-slate-100 rounded-2xl outline-none border border-transparent focus:border-slate-400 focus:ring-1 focus:ring-slate-400 font-medium text-slate-800 placeholder-slate-400 text-sm"
         />
 
+        {/* Calories */}
         <input
           required
           type="number"
           min="1"
+          step="1"
           placeholder="Kcal"
           value={form.calories}
-          onChange={e => setForm({ ...form, calories: e.target.value })}
-          className="w-1/3 p-3.5 bg-slate-100 rounded-2xl outline-none font-black text-slate-700 placeholder-slate-400 text-sm"
+          onChange={handleCaloriesChange}
+          className="w-1/3 p-3.5 bg-slate-100 rounded-2xl outline-none border border-transparent focus:border-slate-400 focus:ring-1 focus:ring-slate-400 font-black text-slate-700 placeholder-slate-400 text-sm"
         />
+
       </div>
 
       {/* Meal Type */}
       <div className="grid grid-cols-4 gap-1.5">
-        {[
-          { type: 'breakfast', emoji: '🌅' },
-          { type: 'lunch', emoji: '☀️' },
-          { type: 'dinner', emoji: '🌙' },
-          { type: 'snack', emoji: '🍎' }
-        ].map(({ type, emoji }) => (
+
+        {mealTypes.map(({ type, icon }) => (
+
           <button
             key={type}
             type="button"
             onClick={() => setForm({ ...form, type })}
-            className={`py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-wide transition-all duration-200 flex flex-col items-center gap-0.5
-              ${
-                form.type === type
-                  ? 'bg-slate-700 text-white shadow-lg shadow-slate-200'
-                  : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
-              }`}
+            className={`py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-wide transition-all duration-200 flex flex-col items-center gap-1
+            ${
+              form.type === type
+                ? 'bg-slate-700 text-white shadow-lg shadow-slate-200'
+                : 'bg-slate-100 text-slate-500 hover:bg-slate-200'
+            }`}
           >
-            <span className="text-base">{emoji}</span>
+
+            {icon}
             {type}
+
           </button>
+
         ))}
+
       </div>
 
       {/* Submit */}
@@ -82,7 +138,7 @@ const MealLogForm = ({ form, setForm, editingId, handleSubmit, selectedDate }) =
         type="submit"
         className="w-full py-3.5 rounded-2xl font-black text-white text-sm uppercase tracking-widest shadow-xl transition-all hover:scale-[1.01] active:scale-95 bg-slate-700 hover:bg-slate-800 shadow-slate-200"
       >
-        {editingId ? '💾 Save Changes' : '+ Add to Diary'}
+        {editingId ? 'Save Changes' : 'Add to Diary'}
       </button>
 
       {editingId && (
@@ -90,6 +146,7 @@ const MealLogForm = ({ form, setForm, editingId, handleSubmit, selectedDate }) =
           Editing mode — form resets after save
         </p>
       )}
+
     </form>
   );
 };
