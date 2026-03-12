@@ -2,15 +2,6 @@ import React, { useState } from 'react';
 
 const MEAL_TYPES = ['all', 'breakfast', 'lunch', 'dinner', 'snack'];
 
-const TYPE_EMOJI = { breakfast: '🌅', lunch: '☀️', dinner: '🌙', snack: '🍎' };
-
-const TYPE_COLOR = {
-  breakfast: 'text-slate-600 bg-slate-100',
-  lunch: 'text-slate-600 bg-slate-100',
-  dinner: 'text-slate-600 bg-slate-100',
-  snack: 'text-slate-600 bg-slate-100',
-};
-
 const SortIcon = ({ active, dir }) => (
   <span className={`ml-1 inline-block transition-all ${active ? 'text-slate-600' : 'text-slate-300'}`}>
     {active && dir === 'desc' ? '↓' : active && dir === 'asc' ? '↑' : '↕'}
