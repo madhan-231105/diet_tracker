@@ -2,20 +2,22 @@ const Meal = require('../models/Meal');
 
 // Create a new meal
 exports.addMeal = async (req, res) => {
-    try {
-        const { name, type, calories, date } = req.body;
-        const newMeal = new Meal({
-            user: req.user.id, // ID comes from the Auth Middleware
-            name,
-            type,
-            calories,
-            date
-        });
-        const meal = await newMeal.save();
-        res.json(meal);
-    } catch (err) {
-        res.status(500).send('Server Error');
-    }
+  try {
+    const { name, type, calories, quantity, date } = req.body; // ← add quantity here
+    const newMeal = new Meal({
+      user: req.user.id,
+      name,
+      type,
+      calories,
+      quantity,   // ← add this line
+      date
+    });
+    const meal = await newMeal.save();
+    res.json(meal);
+  } catch (err) {
+    console.error(err.message); // ← log the real error too
+    res.status(500).send('Server Error');
+  }
 };
 
 // Get only the logged-in user's meals

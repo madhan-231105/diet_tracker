@@ -3,41 +3,89 @@ import { login } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: '', password: '' });
-    const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const { data } = await login(formData);
-            localStorage.setItem('token', data.token);
-            navigate('/dashboard');
-            localStorage.setItem('username', data.user.username); // Ensure this line exists
-            window.location.reload(); // Quick way to refresh auth state
-        } catch (err) {
-            alert('Invalid credentials');
-        }
-    };
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
 
-    return (
-        <div className="flex items-center justify-center h-screen">
-            <form onSubmit={handleSubmit} className="p-8 bg-white shadow-lg rounded-lg w-96">
-                <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-                <input 
-                    type="email" placeholder="Email" className="w-full p-2 mb-4 border rounded"
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                />
-                <input 
-                    type="password" placeholder="Password" className="w-full p-2 mb-6 border rounded"
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                />
-                <button className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
-                <p className="mt-4 text-center">
-                    Don't have an account? <Link to="/register" className="text-blue-500">Register</Link>
-                </p>
-            </form>
-        </div>
-    );
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await login(formData);
+
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('username', data.user.username);
+
+      navigate('/dashboard');
+
+      // refresh auth state
+      window.location.reload();
+
+    } catch (err) {
+      alert('Invalid credentials');
+    }
+  };
+
+  return (
+
+    <div className="flex items-center justify-center min-h-screen bg-slate-50">
+
+      <form
+        onSubmit={handleSubmit}
+        className="p-8 bg-white shadow-xl rounded-2xl w-96 border border-slate-200"
+      >
+
+        <h2 className="text-2xl font-black mb-6 text-center text-slate-800">
+          Login
+        </h2>
+
+        {/* Email */}
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          className="w-full p-3 mb-4 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300 text-slate-700 placeholder-slate-400"
+          onChange={(e) =>
+            setFormData({ ...formData, email: e.target.value })
+          }
+        />
+
+        {/* Password */}
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          className="w-full p-3 mb-6 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300 text-slate-700 placeholder-slate-400"
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+        />
+
+        {/* Login button */}
+        <button
+          className="w-full bg-slate-700 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition"
+        >
+          Login
+        </button>
+
+        <p className="mt-4 text-center text-sm text-slate-500">
+          Don't have an account?{" "}
+          <Link
+            to="/register"
+            className="text-slate-600 font-bold hover:text-slate-800"
+          >
+            Register
+          </Link>
+        </p>
+
+      </form>
+
+    </div>
+  );
 };
 
 export default Login;

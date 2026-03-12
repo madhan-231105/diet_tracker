@@ -45,7 +45,7 @@ return days.reverse()
 const color = (kcal)=>{
 
 if(kcal===0) return "bg-gray-100"
-if(kcal<800) return "bg-blue-200"
+if(kcal<800) return "bg-zinc-200"
 if(kcal<1500) return "bg-yellow-300"
 if(kcal<2000) return "bg-green-400"
 return "bg-red-400"
