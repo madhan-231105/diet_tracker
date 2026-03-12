@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { login } from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -11,19 +11,26 @@ const Login = () => {
 
   const navigate = useNavigate();
 
+  // If already logged in, redirect to dashboard
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
+
       const { data } = await login(formData);
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('username', data.user.username);
 
-      navigate('/dashboard');
-
-      // refresh auth state
-      window.location.reload();
+      // Replace history so login page disappears
+      navigate('/dashboard', { replace: true });
 
     } catch (err) {
       alert('Invalid credentials');

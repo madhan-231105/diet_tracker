@@ -1,47 +1,44 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Login    from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
-// NOTE: History is no longer a separate page/route.
-// It lives inside the Dashboard's side navigation (History tab).
-// Navigate to /dashboard and click "History" in the sidebar.
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem('token');
 
   return (
     <Router>
+
       <Toaster position="top-right" />
+
       <div className="min-h-screen bg-slate-50">
+
         <Routes>
 
           {/* Public Routes */}
-          <Route path="/login"    element={<Login />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
-          {/* Protected Routes */}
+          {/* Protected Route */}
           <Route
             path="/dashboard"
-            element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
           />
 
-          {/* Root redirect */}
-          <Route
-            path="/"
-            element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} />}
-          />
-
-          {/* Catch-all */}
-          <Route
-            path="*"
-            element={<Navigate to={isAuthenticated ? '/dashboard' : '/login'} />}
-          />
+          {/* Default route */}
+          <Route path="/" element={<Login />} />
 
         </Routes>
+
       </div>
+
     </Router>
   );
 }
