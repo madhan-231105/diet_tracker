@@ -12,6 +12,7 @@ const Login = () => {
             const { data } = await login(formData);
             localStorage.setItem('token', data.token);
             navigate('/dashboard');
+            localStorage.setItem('username', data.user.username); // Ensure this line exists
             window.location.reload(); // Quick way to refresh auth state
         } catch (err) {
             alert('Invalid credentials');

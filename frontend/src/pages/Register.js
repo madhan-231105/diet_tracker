@@ -20,6 +20,7 @@ const Register = () => {
             navigate('/dashboard');
             // Refresh to update the auth state in App.js
             window.location.reload(); 
+            localStorage.setItem('username', data.user.username); // Ensure this line exists
         } catch (err) {
             alert(err.response?.data?.message || 'Registration failed. Try a different email.');
         }
