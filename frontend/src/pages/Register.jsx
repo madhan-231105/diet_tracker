@@ -13,16 +13,31 @@ const Register = () => {
 
   const navigate = useNavigate();
 
+  // Password validation
   const validatePassword = (password) => {
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{6,}$/;
     return regex.test(password);
   };
 
+  // Email validation
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
+    if (!validateEmail(formData.email)) {
+      alert("Please enter a valid email address");
+      return;
+    }
+
     if (!validatePassword(formData.password)) {
-      alert("Password must contain:\n• 1 uppercase letter\n• 1 number\n• 1 special character");
+      alert(
+        "Password must contain:\n• 1 uppercase letter\n• 1 number\n• 1 special character\n• Minimum 6 characters"
+      );
       return;
     }
 
@@ -36,8 +51,11 @@ const Register = () => {
       navigate('/dashboard', { replace: true });
 
     } catch (err) {
+
       alert(err.response?.data?.message || 'Registration failed. Try a different email.');
+
     }
+
   };
 
   return (
@@ -101,14 +119,17 @@ const Register = () => {
           required
           type="password"
           placeholder="Password"
-          className="w-full p-3 mb-6 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300"
+          className="w-full p-3 mb-3 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:ring-2 focus:ring-slate-300"
           onChange={(e) =>
             setFormData({ ...formData, password: e.target.value })
           }
         />
 
         <p className="text-xs text-slate-400 mb-6">
-          Password must contain: 1 uppercase letter, 1 number, 1 special character
+          Password must contain:
+          <br />• 1 uppercase letter
+          <br />• 1 number
+          <br />• 1 special character
         </p>
 
         {/* Button */}
